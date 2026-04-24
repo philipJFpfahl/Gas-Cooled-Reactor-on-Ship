@@ -1,0 +1,15 @@
+beta = 600
+beta1 = 600 
+beta2 =0 
+beta3 =0 
+beta4 =0 
+beta5 =0 
+beta6 =0 
+Lambda = 0.0004
+lambda1 = 1
+lambda2 = 0.03273
+lambda3 = 0.1208
+lambda4 = 0.3029
+lambda5 = 0.8501
+lambda6 = 2.855
+alpha = -1
