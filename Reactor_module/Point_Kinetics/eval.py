@@ -5,10 +5,14 @@ import sys
 
 # Load CSV
 df = pd.read_csv("Main_out.csv")
+df_battery = pd.read_csv("Main_out_Battery0.csv") 
+df_turbine = pd.read_csv("Main_out_Battery0_Turbine0.csv") 
 
 # Convert time column to datetime
 
-# Plot
+################################################################################
+# Plot parameters over time  
+################################################################################
 
 fig, ax_left = plt.subplots()
 y_columns=["T_battery","T_inlet","T_outlet","T_reactor","T_refference"]
@@ -16,6 +20,8 @@ for col in y_columns:
     if col not in df.columns:
         raise ValueError(f"Column '{col}' not found in CSV")
     ax_left.plot(df["time"], df[col], label=col)
+ax_left.plot(df_turbine["time"], df_turbine["T_to_battery"], label="T_to_battery")
+ax_left.plot(df_turbine["time"], df_turbine["T_from_battery"], label="T_from_battery")
 ax_left.set_ylabel("time")
 ax_left.set_ylabel("Temperature [K]")
 
@@ -40,12 +46,20 @@ ax_left.legend(handles, labels, loc="best")
 plt.tight_layout()
 plt.show()
 
-df_battery = pd.read_csv("Main_out_Battery0.csv") 
+fig, ax_left = plt.subplots()
+plt.plot(df_battery["time"], df_battery["mass_flow_rate_secondary"] , label="Turbine_energy")
+plt.show()
+
+################################################################################
+# Plot Energy balance over time  
+################################################################################
 
 fig, ax_left = plt.subplots()
 ax_left.plot(df["time"], df["Produced_energy"] , label="Reactor_energy")
 ax_left.plot(df_battery["time"], df_battery["Energy_to_turbine"] , label="Turbine_energy")
-ax_left.plot(df_battery["time"], df_battery["Energy_Gas"] + df_battery["Energy_battery"] , label="Energy_stored")
+ax_left.plot(df_battery["time"],  df_battery["Energy_battery"] , label="Energy_battery")
+ax_left.plot(df["time"], df["Energy_graphite"], label="Energy_graphite")
+ax_left.plot(df_battery["time"],   df_battery["Energy_Gas"], label="Energy_gas")
 
 ax_left.plot(df["time"], df_battery["Energy_Gas"] + df_battery["Energy_battery"] + df_battery["Energy_to_turbine"] , label="System_energy")
 ax_left.set_ylabel("time")
@@ -57,12 +71,14 @@ ax_left.legend()
 plt.tight_layout()
 plt.show()
 
+################################################################################
+# Plot Energy loss over time  
+################################################################################
 
 fig, ax_left = plt.subplots()
-ax_left.plot(df["time"], df["Produced_energy"]-(df_battery["Energy_Gas"] + df_battery["Energy_battery"] + df_battery["Energy_to_turbine"] ) , label="Missing_energy")
+ax_left.plot(df["time"], df["Produced_energy"]-(df_battery["Energy_Gas"] + df_battery["Energy_battery"] + df_battery["Energy_to_turbine"]) , label="Missing_energy")
 
 ax_left.set_ylabel("time")
-
 
 plt.grid()
 ax_left.legend()

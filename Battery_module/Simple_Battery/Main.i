@@ -44,7 +44,7 @@ circulation_time=10.0
 
 [Outputs]
   csv = true
-  exodus  = true
+  exodus  = false
 []
 
 [Postprocessors]
@@ -69,9 +69,39 @@ circulation_time=10.0
    constant_names = 'initial_gas_temperature cp_r '
    pp_names = 'average_gas_temperature T_pipe_outlet T_battery_pp mass_flow_rate_primary'
  []
- [T_from_turbine]
-    type = Receiver
-    default = 500 
-   execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
- []
+[]
+
+[MultiApps]
+    [Turbine]
+      type = TransientMultiApp
+      input_files = "../../Turbine_module/Simple_Turbine/Main.i"
+      execute_on= "timestep_end "
+      sub_cycling = false
+    []
+[]
+
+[Transfers]
+    [push_T_to_turbine]
+        type = MultiAppPostprocessorTransfer
+        to_multi_app = Turbine 
+        from_postprocessor = T_to_turbine
+        to_postprocessor = T_from_battery
+        execute_on= "timestep_end initial"
+    [] 
+    [pull_T_from_turbine]
+        type = MultiAppPostprocessorTransfer
+        from_multi_app = Turbine 
+        from_postprocessor = T_to_battery
+        to_postprocessor = T_from_turbine
+        execute_on= "timestep_end initial"
+        reduction_type = average
+    [] 
+    [pull_mass_flow_from_turbine]
+        type = MultiAppPostprocessorTransfer
+        from_multi_app = Turbine 
+        from_postprocessor = mass_flow_rate_secondary
+        to_postprocessor = mass_flow_rate_secondary
+        execute_on= "timestep_end initial"
+        reduction_type = average
+    [] 
 []

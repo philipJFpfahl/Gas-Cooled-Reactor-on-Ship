@@ -7,6 +7,8 @@ and
 
 An extra battery model is added. 
 
+TODO: 
+- [ ] Move all variables into Main.i for restart 
 ![[Pasted image 20260325142648.png]]
 
 And the turbine side is simplified. 
@@ -21,6 +23,7 @@ And the turbine side is simplified.
 
 Total core power	15 MWth
 Primary mass flow rate	30 kg/s
+Primary circulation time = 10s
 Core inlet temperature	890 K
 Core outlet temperature	1190 K
 The core volume is $7\times 10 ^6$ cm$³$.
@@ -38,9 +41,7 @@ Heat capacity of the Battery = $1 \times 10 ^9$ J/K  heat capacity of the batter
 ## Reactor Dynamics
 
 
-
-
-The reactor module takes 2 inputs. The controllrod movement and the inlet temperature. 
+The reactor module takes 2 inputs. The controlled movement and the inlet temperature.
 The power evolution of the reactor is modeled with the PKE:
 
 $$
@@ -110,27 +111,31 @@ $$
 
 The coolant is assumed to be in compressible. In a more advanced model, it should be adjusted.
 
-The entire power of the reactor is assumed to be dumped into the coolant gas. At some point, it might be interesting to test radiative cooling.
+The entire power of the reactor is assumed to be dumped into a graphite block, that then heats the colant gas. At some point, it might be interesting to model this at higher fidelity radiative cooling.
 
-There is also the
 
+The change in reactor temperature is given by
+
+$$
+C_R \frac{d T_R}{dt} = Power-\dot Q_{colant}
+$$
+with the heat transported by the coolant beeing:
+$$
+\dot Q_{colant} = \dot m_R c_R (T_{Rout}-T_{Rin})
+$$
 In this model, the change in coolant temperature:
 
 $$
-\Delta T = \frac{P(t)}{c_R \dot m_R}
+T_{Rout} = T_R +(T_{Rin}-T_R) \exp\left[-\frac{A_{core}}{\dot m_R c_R}\right]
 $$
-
 with the specific heat capacity of the reactor coolant of $c_R$ and the reactor coolant mass flow rate $\dot m_R$.
 
-So that the temperature at point $R_{out}$
-$$
-T_{Rout} = T_{Rin} +\Delta T = T_{Rin} + \frac{P(t)}{c_R \dot m_R}
-$$
 Since we know the nominal power and we want to have a temperature rise of $55$ K the $c_R \dot m_R$ = 300000 J/Ks
 
 # Battery
 
-The battery is a thermal battery. The exact composition is unknown, but scenarios like loss of battery fluid could be simulated in the future.
+The battery is a thermal battery. The exact composition is unknown.
+Scenarios like loss of battery fluid could be simulated in the future.
 
 The change in temperature is given by
 
@@ -175,11 +180,41 @@ T_{Bout} = T_B +(T_{Bin}-T_B) \exp\left[-\frac{A_T}{\dot m_T c_T}\right]
 $$
 
 # Turbine
+Since this is so simple it is included in the battery module.
+- [x] add turbine ✅ 2026-04-29
 
-We assume that the efficiency is 50% of the Carnot efficiency, with the final heat sink temperature of $293.15$ K.
+the Isentropic outlet temperature for ideal gases:
 
 $$
-\eta = 0.5 (1-\frac{T_c}{T_h})
+Tout,s= T_{\text{in}} \left( \frac{P_{\text{out}}}{P_{\text{in}}} \right)^{\frac{\gamma-1}{\gamma}} = T_{\text{in}} \zeta
+$$
+with ratio of specific heats $\gamma$.
+Actual:
+$$
+T_{\text{out}}​=T_{\text{in}}​−\eta(T_{\text{in}}​−T_{\text{out,s}}​) = T_{\text{in}}​−\eta(T_{\text{in}}​−T_{\text{in}} * \zeta) = T_{\text{in}}(1-\eta(1-\zeta))
+$$
+$$
+= T_{\text{in}}(1-\epsilon) , \text{with}\space  \space \epsilon = \eta(1-\zeta)=\eta(1-\left( \frac{P_{\text{out}}}{P_{\text{in}}} \right)^{\frac{\gamma-1}{\gamma}})
+$$
+Power: 
+$$
+\dot{W} = \dot{m} c_p (T_{\text{in}} - T_{\text{out}})=  \dot{m} c_p (T_{\text{in}} -  T_{\text{in}}(1-\epsilon)) = \dot{m} c_p T_{\text{in}} (1 - 1-\epsilon) = \dot{m} c_p T_{\text{in}} \epsilon
+$$
+Since we want a more or less constant in and outlet temperature we will adjust the MFR according to:
+$$
+\dot{m} c_p =  \frac{\dot{W}}{(T_{\text{in}} - T_{\text{out}})}=\frac{\dot W}{T_{\text{in}} \epsilon}
 $$
 
-In this case $T_c = T_{B}$ and $T_h = T_{Bout}$.
+With 
+$$
+\frac{P_{out}}{P_{in}} = 2000
+$$
+and 
+$$
+\gamma = 1.2 (Co2 @ 1000)
+$$
+the Isentropic ratio between the outlet and inlet temperature is then 
+$$
+\zeta = 0.281727
+$$
+with an  isentropic efficiency of  ​$\eta=0.8$. $\epsilon = 0.502$ Or just 50%

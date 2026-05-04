@@ -16,7 +16,7 @@
 ################################################################################
 initial_power = 15e6
 Reactor_inlet_temperature = 890
-Reactor_refference_temperature = 1050.0
+Reactor_refference_temperature = 1000.0
 
 ################################################################################
 # Meshing 
@@ -52,7 +52,7 @@ Reactor_refference_temperature = 1050.0
 []
 [Executioner]
   type = Transient
-  #end_time = 1
+  ##end_time = 30
   solve_type = 'PJFNK'
   petsc_options_iname = '-pc_type -pc_factor_shift_type'
   petsc_options_value = 'lu NONZERO'
@@ -61,7 +61,7 @@ Reactor_refference_temperature = 1050.0
   nl_rel_tol = 2.5e-10
   l_max_its = 200
 steady_state_detection = true
-steady_state_tolerance = 1e-10
+steady_state_tolerance = 1e-6
  dt  =1   
  # [TimeStepper]
  #   type = IterationAdaptiveDT
@@ -76,13 +76,14 @@ steady_state_tolerance = 1e-10
 
 [Outputs]
   csv = true
+  exodus  = false
 []
 
 #[Controls]
 #  [web_control]
 #    type = WebServerControl
 #    port = 6000
-#    #address = '127.0.0.1'
+#    address = '127.0.0.1'
 #    initial_client_timeout = 600
 #    client_timeout = 600
 #  []
@@ -167,4 +168,12 @@ steady_state_tolerance = 1e-10
     default = ${Reactor_inlet_temperature}
    execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
  []
+ [Energy_reactor]
+   type = ParsedPostprocessor 
+   execute_on = 'initial timestep_end'
+   expression = '(T_reactor_pp-  Reactor_refference_temperature) * Cr'
+   pp_names = 'T_reactor_pp'
+  constant_names = 'Reactor_refference_temperature Cr'
+  constant_expressions = '${ Reactor_refference_temperature} ${Cr}'
  []
+[]
