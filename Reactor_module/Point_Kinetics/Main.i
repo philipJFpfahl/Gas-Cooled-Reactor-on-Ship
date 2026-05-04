@@ -14,6 +14,7 @@
 ###################    Variables           #######################
 ##################################################################
 !include "Variables_Mesh.i"
+#!include "Variables_Mesh_restart.i"
 
 ################################################################################
 # Execution parameters 
@@ -55,7 +56,7 @@ steady_state_tolerance = 1e-6
 
 [Outputs]
   csv = true
-  exodus  = false
+  exodus  = true
 []
 
 #[Controls]

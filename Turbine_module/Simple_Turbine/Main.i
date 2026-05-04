@@ -29,7 +29,7 @@ epsilon = 0.5 # total efficiency
   []
 []
 [Variables]
-  [power_scalar]
+  [scalar_value]
     family = SCALAR
     order = FIRST
     initial_condition = 1 
@@ -44,7 +44,7 @@ epsilon = 0.5 # total efficiency
 [ScalarKernels]
     [LHSPower]
       type = ODETimeDerivative
-      variable = power_scalar
+      variable = scalar_value
     []
 []
 [Executioner]
@@ -63,12 +63,11 @@ epsilon = 0.5 # total efficiency
  [T_from_battery]
     type = Receiver
     default = 850 
-    
    execute_on = 'INITIAL TIMESTEP_BEGIN '
  []
  [Power_demand]
     type = Receiver
-    default = 7e7 
+    default = 7e5 
    execute_on = 'INITIAL  TIMESTEP_END'
  []
 []

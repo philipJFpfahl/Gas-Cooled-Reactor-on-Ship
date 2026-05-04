@@ -46,17 +46,14 @@
    execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
  []
  [T_to_turbine]
- #TODO Update these values for the secondary side
    type = ParsedPostprocessor 
-   expression = 'T_battery_pp+ (T_from_turbine - T_battery_pp)*exp(-Ar_T/mass_flow_rate_primary/cp_r)'
-   constant_expressions = '${fparse Ar_R} ${fparse cp_r}'
+   expression = 'T_battery_pp+ (T_from_turbine - T_battery_pp)*exp(-Ar_T/mass_flow_rate_secondary/cp_r)'
+   constant_expressions = '${fparse Ar_T} ${fparse cp_r}'
    constant_names = 'Ar_T cp_r '
-   pp_names = 'T_from_turbine T_battery_pp mass_flow_rate_primary'
+   pp_names = 'T_from_turbine T_battery_pp mass_flow_rate_secondary'
    execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
  []
  [Power_to_turbine]
- #TODO: change the inlet temp currently set at 500
- # change the MFR currently set at 10
    type = ParsedPostprocessor 
    expression = '(T_to_turbine-T_from_turbine)*cp_r*mass_flow_rate_secondary'
    constant_expressions = '${fparse cp_r} '
