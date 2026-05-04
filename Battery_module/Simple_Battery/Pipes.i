@@ -1,28 +1,8 @@
 
-velocity_pipes= ${fparse L_pipe/circulation_time}
 [GlobalParams]
   advected_interp_method = 'upwind'
 []
 
-[Mesh]
-  [./gen_mesh]
-    type = GeneratedMeshGenerator
-    dim = 1
-    xmin = 0.0
-    xmax = ${L_pipe}
-    nx = 100
-  [../]
-[]
-
-[Variables]
-  [T_gas]
-    family = MONOMIAL
-    order = CONSTANT
-    fv = true
-    type = MooseVariableFVReal
-    initial_condition = ${initial_gas_temperature}
-  []
-[]
 
 [FVKernels]
   [Time_T_gas]

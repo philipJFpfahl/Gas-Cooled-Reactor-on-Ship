@@ -3,13 +3,6 @@
 ################################################################################
 !include "../../Parameter/TH_parameter.py"
 
-[Variables]
-  [T_reactor]
-    family = SCALAR
-    order = FIRST
-    initial_condition =${fparse Reactor_refference_temperature-1}
-  []
-[]
 
 [ScalarKernels]
     [LHS_graphite_time]

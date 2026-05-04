@@ -32,6 +32,12 @@ ax_right.plot(
     linestyle="--",
     label="power"
     )
+ax_right.plot(
+    df_turbine["time"],
+    df_turbine["Power_demand"],
+    linestyle="--",
+    label="power demand"
+    )
 ax_right.set_ylabel("Power")
 
 plt.grid()

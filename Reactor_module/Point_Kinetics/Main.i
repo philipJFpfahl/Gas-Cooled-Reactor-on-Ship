@@ -2,7 +2,6 @@
 # Load Kinetics Parameters  
 ################################################################################
 !include "../../Parameter/Kinetics_parameter.py"
-#!include "../../Parameter/Kinetics_one_group.py"
 
 ################################################################################
 # Load physics 
@@ -11,39 +10,19 @@
 !include "Temperature.i"
 !include "Reactivity.i"
 
-################################################################################
-# Simulation Parameters  
-################################################################################
-initial_power = 15e6
-Reactor_inlet_temperature = 890
-Reactor_refference_temperature = 1000.0
-
-################################################################################
-# Meshing 
-################################################################################
-[Mesh]
-  [gmg]
-    type = GeneratedMeshGenerator
-    dim = 2
-    nx = 1
-    ny = 1
-    xmin = 0
-    xmax = 1
-    ymin = 0
-    ymax = 1
-    show_info = false
-  []
-[]
-
-[Problem]
-    kernel_coverage_check=false
-    #allow_initial_conditions_with_restart = true
-[]
+##################################################################
+###################    Variables           #######################
+##################################################################
+!include "Variables_Mesh.i"
 
 ################################################################################
 # Execution parameters 
 ################################################################################
 
+[Problem]
+    kernel_coverage_check=false
+    #allow_initial_conditions_with_restart = true
+[]
 [Preconditioning]
   [SMP_PJFNK]
     type = SMP

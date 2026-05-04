@@ -1,11 +1,3 @@
-[Variables]
-  [T_battery]
-    family = SCALAR
-    order = FIRST
-    initial_condition = ${initial_T_battery}
-  []
-[]
-
 [ScalarKernels]
     [LHS_Battery_time]
       type = ODETimeDerivative

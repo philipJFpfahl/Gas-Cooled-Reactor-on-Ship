@@ -1,43 +1,6 @@
 ################################################################################
 # Variable  
 ################################################################################
-[Variables]
-  [power_scalar]
-    family = SCALAR
-    order = FIRST
-    initial_condition = ${initial_power}
-  []
-  [C1]
-    family = SCALAR
-    order = FIRST
-    initial_condition = ${fparse initial_power*beta1/lambda1/Lambda}
-  []
-  [C2]
-    family = SCALAR
-    order = FIRST
-    initial_condition = ${fparse initial_power*beta2/lambda2/Lambda}
-  []
-  [C3]
-    family = SCALAR
-    order = FIRST
-    initial_condition = ${fparse initial_power*beta3/lambda3/Lambda}
-  []
-  [C4]
-    family = SCALAR
-    order = FIRST
-    initial_condition = ${fparse initial_power*beta4/lambda4/Lambda}
-  []
-  [C5]
-    family = SCALAR
-    order = FIRST
-    initial_condition = ${fparse initial_power*beta5/lambda5/Lambda}
-  []
-  [C6]
-    family = SCALAR
-    order = FIRST
-    initial_condition = ${fparse initial_power*beta6/lambda6/Lambda}
-  []
-[]
 
 [ScalarKernels]
     [LHSPower]
