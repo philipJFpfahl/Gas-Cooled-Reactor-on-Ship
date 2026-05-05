@@ -52,9 +52,6 @@ ax_left.legend(handles, labels, loc="best")
 plt.tight_layout()
 plt.show()
 
-fig, ax_left = plt.subplots()
-plt.plot(df_battery["time"], df_battery["mass_flow_rate_secondary"] , label="Turbine_energy")
-plt.show()
 
 ################################################################################
 # Plot Energy balance over time  
@@ -82,8 +79,8 @@ plt.show()
 ################################################################################
 
 fig, ax_left = plt.subplots()
-ax_left.plot(df["time"], df["Produced_energy"]-(df_battery["Energy_Gas"] + df_battery["Energy_battery"] + df_battery["Energy_to_turbine"]) , label="Missing_energy")
-
+ax_left.plot(df["time"], (df["Produced_energy"]-(df_battery["Energy_Gas"] + df_battery["Energy_battery"] + df_battery["Energy_to_turbine"])), label="Missing_energy")
+ax_left.plot(df_battery["Energy_to_turbine"]-df_turbine["Rejected_energy_turbine"])
 ax_left.set_ylabel("time")
 
 plt.grid()

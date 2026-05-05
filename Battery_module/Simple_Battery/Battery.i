@@ -15,9 +15,9 @@
       type = ParsedODEKernel
       variable = T_battery
       expression = '-cp_r*mass_flow_rate_secondary*(T_from_turbine-T_to_turbine)/Cb'
-      constant_expressions = '${fparse Cb} ${fparse cp_r} ${fparse mass_flow_rate_reactor}'
-      constant_names = 'Cb cp_r mass_flow_rate_secondary'
-      postprocessors = 'T_from_turbine T_to_turbine '
+      constant_expressions = '${fparse Cb} ${fparse cp_r} '
+      constant_names = 'Cb cp_r '
+      postprocessors = 'T_from_turbine T_to_turbine mass_flow_rate_secondary'
     []
 []
 
@@ -37,12 +37,12 @@
  []
  [T_from_turbine]
     type = Receiver
-    default = 425 
+    default = 600 
    execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
  []
  [mass_flow_rate_secondary]
     type = Receiver
-    default = '${mass_flow_rate_reactor}' 
+    default = '${mass_flow_rate_secondary}' 
    execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
  []
  [T_to_turbine]

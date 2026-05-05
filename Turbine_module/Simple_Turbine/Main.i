@@ -67,7 +67,7 @@ epsilon = 0.5 # total efficiency
  []
  [Power_demand]
     type = Receiver
-    default = 7e5 
+    default = 7.5e6 
    execute_on = 'INITIAL  TIMESTEP_END'
  []
 []

@@ -3,7 +3,6 @@
 ################################################################################
 !include "../../Parameter/TH_parameter.py"
 
-
 [ScalarKernels]
     [LHS_graphite_time]
       type = ODETimeDerivative

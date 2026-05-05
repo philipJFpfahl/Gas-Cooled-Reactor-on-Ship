@@ -182,9 +182,21 @@ $$
 # Turbine
 Since this is so simple it is included in the battery module.
 - [x] add turbine ✅ 2026-04-29
+ For a given power demand $W$ we calculate an outlet temperature:
+ 
+ $$
+ T_{out } = T_{in} -\frac{W}{\dot m c_p \epsilon}
+$$
 
+- [ ] Todo add flexible $\epsilon$
+we can calculate $\epsilon$ with the Carnot efficiency:
+
+$$
+\epsilon = \eta \left (1-\frac{T_c}{T_h} \right )
+$$
+Where the hot temperature comes form the battery and the cold temperature is some fixed value.
+### Old Turbine
 the Isentropic outlet temperature for ideal gases:
-
 $$
 Tout,s= T_{\text{in}} \left( \frac{P_{\text{out}}}{P_{\text{in}}} \right)^{\frac{\gamma-1}{\gamma}} = T_{\text{in}} \zeta
 $$
