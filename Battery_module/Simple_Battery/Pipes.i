@@ -30,7 +30,7 @@
 [Postprocessors]
  [T_pipe_inlet]
     type = Receiver
-    default = 1190
+    default = ${initial_T_from_reactor}
     execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
   []
   [T_pipe_outlet]

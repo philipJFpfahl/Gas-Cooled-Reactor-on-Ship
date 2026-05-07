@@ -53,6 +53,9 @@ plt.tight_layout()
 plt.show()
 
 
+plt.plot(df["time"], df["rho_T"], label="T_to_battery")
+plt.show()
+
 ################################################################################
 # Plot Energy balance over time  
 ################################################################################
@@ -80,7 +83,7 @@ plt.show()
 
 fig, ax_left = plt.subplots()
 ax_left.plot(df["time"], (df["Produced_energy"]-(df_battery["Energy_Gas"] + df_battery["Energy_battery"] + df_battery["Energy_to_turbine"])), label="Missing_energy")
-ax_left.plot(df_battery["Energy_to_turbine"]-df_turbine["Rejected_energy_turbine"])
+ax_left.plot(df["time"], (df["Produced_energy"]-(df_battery["Energy_Gas"] + df_battery["Energy_battery"] + df_turbine["Rejected_energy_turbine"])), label="Missing_energy")
 ax_left.set_ylabel("time")
 
 plt.grid()

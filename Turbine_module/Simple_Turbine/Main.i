@@ -9,8 +9,6 @@
 !include "Turbine.i"
 !include "Pump.i"
 
-epsilon = 0.5 # total efficiency
-
 ################################################################################
 # Meshing 
 # dummy sim
@@ -38,7 +36,8 @@ epsilon = 0.5 # total efficiency
 
 [Outputs]
   csv = true
-  exodus  = false
+time_step_interval = 100
+  #exodus  = false
 []
 
 [ScalarKernels]
@@ -54,20 +53,26 @@ epsilon = 0.5 # total efficiency
   petsc_options_iname = '-pc_type -pc_factor_shift_type'
   petsc_options_value = 'lu NONZERO'
   line_search = 'none'
-  nl_abs_tol = 2.5e-10
-  nl_rel_tol = 2.5e-10
+  nl_abs_tol = 2.5e-9
+  nl_rel_tol = 2.5e-9
   l_max_its = 200
 []
 
 [Postprocessors]
  [T_from_battery]
     type = Receiver
-    default = 850 
+    default = ${initial_T_to_turbine}
    execute_on = 'INITIAL TIMESTEP_BEGIN '
  []
  [Power_demand]
-    type = Receiver
-    default = 7.5e6 
+#    type = Receiver
+#    default = ${initial_power_demand} 
+   type = FunctionValuePostprocessor
+   function = power_demand_func 
    execute_on = 'INITIAL  TIMESTEP_END'
  []
 []
+
+#!include "Demand_function.i"
+!include "Benchmark_Demand_function.i"
+

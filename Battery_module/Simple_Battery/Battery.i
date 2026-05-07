@@ -6,18 +6,18 @@
     [RHS_Battery_reactor]
       type = ParsedODEKernel
       variable = T_battery
-      expression = '-cp_r*mass_flow_rate_primary*(T_pipe_outlet-T_to_reactor)/Cb'
-      constant_expressions = '${fparse Cb} ${fparse cp_r}  '
-      constant_names = 'Cb cp_r'
-      postprocessors = 'T_pipe_outlet T_to_reactor mass_flow_rate_primary'
+      expression = '-cp_r*mass_flow_rate_primary*(T_pipe_outlet-T_to_reactor)/Cb_battery'
+      constant_expressions = '${fparse cp_r}  '
+      constant_names = 'cp_r'
+      postprocessors = 'T_pipe_outlet T_to_reactor mass_flow_rate_primary Cb_battery'
     []
     [RHS_Battery_turbine]
       type = ParsedODEKernel
       variable = T_battery
-      expression = '-cp_r*mass_flow_rate_secondary*(T_from_turbine-T_to_turbine)/Cb'
-      constant_expressions = '${fparse Cb} ${fparse cp_r} '
-      constant_names = 'Cb cp_r '
-      postprocessors = 'T_from_turbine T_to_turbine mass_flow_rate_secondary'
+      expression = '-cp_r*mass_flow_rate_secondary*(T_from_turbine-T_to_turbine)/Cb_battery'
+      constant_expressions = ' ${fparse cp_r} '
+      constant_names = 'cp_r '
+      postprocessors = 'T_from_turbine T_to_turbine mass_flow_rate_secondary Cb_battery'
     []
 []
 
@@ -37,12 +37,12 @@
  []
  [T_from_turbine]
     type = Receiver
-    default = 600 
+    default = ${initial_T_from_turbine} 
    execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
  []
  [mass_flow_rate_secondary]
     type = Receiver
-    default = '${mass_flow_rate_secondary}' 
+    default = '${initial_mass_flow_rate_secondary}' 
    execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
  []
  [T_to_turbine]

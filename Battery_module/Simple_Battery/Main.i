@@ -12,8 +12,8 @@
 ##################################################################
 ###################    Variables           #######################
 ##################################################################
-!include "Variables_Mesh.i"
-#!include "Variables_Mesh_restart.i"
+#!include "Variables_Mesh.i"
+!include "Variables_Mesh_restart.i"
 
 [Preconditioning]
   [SMP_PJFNK]
@@ -38,17 +38,25 @@
 
 [Outputs]
   csv = true
-  exodus  = true
+time_step_interval = 100
+  #exodus  = true
 []
 
 [Postprocessors]
+ [Cb_battery]
+   type = ParsedPostprocessor 
+   execute_on = 'initial timestep_end'
+   expression = 'initial_Cb'
+   constant_names = ' initial_Cb'
+   constant_expressions = '${initial_Cb}'
+ []
  [Energy_battery]
    type = ParsedPostprocessor 
    execute_on = 'initial timestep_end'
-   expression = '(T_battery_pp- initial_T_battery) * Cb'
-   pp_names = 'T_battery_pp'
-  constant_names = 'initial_T_battery Cb'
-  constant_expressions = '${initial_T_battery} ${Cb}'
+   expression = '(T_battery_pp- initial_T_battery) *  Cb_battery'
+   pp_names = 'T_battery_pp Cb_battery'
+  constant_names = 'initial_T_battery'
+  constant_expressions = '${initial_T_battery} '
  []
   [average_gas_temperature]
     type = ElementAverageValue
@@ -58,7 +66,7 @@
  [Energy_Gas]
    type = ParsedPostprocessor 
    execute_on = 'initial timestep_end'
-   expression = '10*(average_gas_temperature - initial_gas_temperature)*mass_flow_rate_primary*cp_r'
+   expression = '(average_gas_temperature - initial_gas_temperature)*mass_flow_rate_primary*cp_r'
    constant_expressions = '${fparse initial_gas_temperature} ${fparse cp_r}'
    constant_names = 'initial_gas_temperature cp_r '
    pp_names = 'average_gas_temperature T_pipe_outlet T_battery_pp mass_flow_rate_primary'

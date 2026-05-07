@@ -152,6 +152,6 @@
   [power]                    # Expose power for plotting / querying
     type = ScalarVariable
     variable = power_scalar
-    execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
+    execute_on = 'INITIAL TIMESTEP_END'
   []
 []

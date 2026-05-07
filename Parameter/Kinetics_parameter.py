@@ -1,10 +1,6 @@
 ################################################################################
 # Simulation Parameters  
 ################################################################################
-initial_power = 15e6
-Reactor_inlet_temperature = 890
-Reactor_refference_temperature = 1000.0
-
 beta = 670.1
 beta1 = 23.44
 beta2 = 121

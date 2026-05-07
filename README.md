@@ -8,7 +8,7 @@ and
 An extra battery model is added. 
 
 TODO: 
-- [ ] Move all variables into Main.i for restart 
+- [x] Move all variables into Main.i for restart ✅ 2026-05-07
 ![[Pasted image 20260325142648.png]]
 
 And the turbine side is simplified. 
@@ -32,11 +32,6 @@ Control drum speed nominal = 50 pcm/s
 Control drum speed accident = 300 pcm/s 
 
 Heat capacity of the Battery = $1 \times 10 ^9$ J/K  heat capacity of the battery (15 MWh run the turbine at full power for 1 hour with 50K temperature decrease)
-
-
-
-
-
 
 ## Reactor Dynamics
 
@@ -183,6 +178,7 @@ $$
 Since this is so simple it is included in the battery module.
 - [x] add turbine ✅ 2026-04-29
  For a given power demand $W$ we calculate an outlet temperature:
+
  
  $$
  T_{out } = T_{in} -\frac{W}{\dot m c_p \epsilon}

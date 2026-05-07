@@ -32,7 +32,6 @@
 []
 [Executioner]
   type = Transient
-  ##end_time = 30
   solve_type = 'PJFNK'
   petsc_options_iname = '-pc_type -pc_factor_shift_type'
   petsc_options_value = 'lu NONZERO'
@@ -40,9 +39,10 @@
   nl_abs_tol = 2.5e-10
   nl_rel_tol = 2.5e-10
   l_max_its = 200
-steady_state_detection = true
-steady_state_tolerance = 1e-6
- dt  =1   
+ #steady_state_detection = true
+ #steady_state_tolerance = 1e-6
+  dt  =0.1   
+  end_time = 3000
  # [TimeStepper]
  #   type = IterationAdaptiveDT
  #   dt = 0.01
@@ -56,7 +56,8 @@ steady_state_tolerance = 1e-6
 
 [Outputs]
   csv = true
-  exodus  = true
+  time_step_interval = 100
+  #exodus  = true
 []
 
 #[Controls]
@@ -115,8 +116,8 @@ steady_state_tolerance = 1e-6
 [Postprocessors]
   [mass_flow_rate_primary]
     type = Receiver
-    default = ${mass_flow_rate_reactor} 
-   execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
+    default = ${initial_mass_flow_rate_primary} 
+   execute_on = 'INITIAL TIMESTEP_END'
   []
  [Produced_energy]
    type = TimeIntegratedPostprocessor
@@ -130,7 +131,7 @@ steady_state_tolerance = 1e-6
    pp_names = 'T_outlet T_inlet mass_flow_rate_primary'
   constant_names = ' cp_r'
   constant_expressions = '${cp_r}'
-   execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
+   execute_on = 'INITIAL TIMESTEP_END'
  []
  [Outlet_energy]
    type = TimeIntegratedPostprocessor
@@ -140,13 +141,13 @@ steady_state_tolerance = 1e-6
  []
  [T_battery]
     type = Receiver
-    default = 1000
-    execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
+    default = ${initial_T_battery}
+    execute_on = 'INITIAL TIMESTEP_END'
  []
  [T_inlet]
     type = Receiver
     default = ${Reactor_inlet_temperature}
-   execute_on = 'INITIAL TIMESTEP_BEGIN TIMESTEP_END'
+   execute_on = 'INITIAL TIMESTEP_END'
  []
  [Energy_reactor]
    type = ParsedPostprocessor 
