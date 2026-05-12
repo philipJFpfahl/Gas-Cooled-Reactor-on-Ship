@@ -4,9 +4,10 @@ import sys
 
 
 # Load CSV
-df = pd.read_csv("Main_out.csv")
-df_battery = pd.read_csv("Main_out_Battery0.csv") 
-df_turbine = pd.read_csv("Main_out_Battery0_Turbine0.csv") 
+path = "data/10000000.0_"
+df = pd.read_csv(path + "Main_out.csv")
+df_battery = pd.read_csv(path + "Main_out_Battery0.csv") 
+df_turbine = pd.read_csv(path + "Main_out_Battery0_Turbine0.csv") 
 
 # Convert time column to datetime
 
@@ -22,23 +23,27 @@ for col in y_columns:
     ax_left.plot(df["time"], df[col], label=col)
 ax_left.plot(df_turbine["time"], df_turbine["T_to_battery"], label="T_to_battery")
 ax_left.plot(df_turbine["time"], df_turbine["T_from_battery"], label="T_from_battery")
-ax_left.set_ylabel("time")
-ax_left.set_ylabel("Temperature [K]")
+ax_left.set_ylabel("Temperature (K)")
 
 ax_right = ax_left.twinx()
 ax_right.plot(
     df["time"],
-    df["power"],
-    linestyle="--",
+    df["power"]*1e-6,
+    linewidth= 2,
+    color = "black",
+    linestyle="-.",
     label="power"
     )
 ax_right.plot(
     df_turbine["time"],
-    df_turbine["Power_demand"],
+    df_turbine["Power_demand"]*1e-6,
+    linewidth= 2,
+    color = "black",
     linestyle="--",
-    label="power demand"
+    label="power demand", 
     )
-ax_right.set_ylabel("Power")
+ax_right.set_ylabel("Power (MW)")
+ax_left.set_xlabel("time (s)")
 
 plt.grid()
 
@@ -48,7 +53,11 @@ h2, l2 = ax_right.get_legend_handles_labels()
 handles += h2
 labels += l2
 
-ax_left.legend(handles, labels, loc="best")
+box = ax_left.get_position()
+ax_left.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+
+# Put a legend to the right of the current axis
+ax_left.legend(loc='center left', bbox_to_anchor=(1.02, 0.8))
 plt.tight_layout()
 plt.show()
 

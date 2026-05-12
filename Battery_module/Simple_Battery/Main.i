@@ -38,7 +38,7 @@
 
 [Outputs]
   csv = true
-time_step_interval = 100
+  time_step_interval = 10
   #exodus  = true
 []
 

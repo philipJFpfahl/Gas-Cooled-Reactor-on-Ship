@@ -41,8 +41,8 @@
   l_max_its = 200
  #steady_state_detection = true
  #steady_state_tolerance = 1e-6
-  dt  =0.1   
-  end_time = 3000
+  dt  =0.5   
+  end_time = 6000
  # [TimeStepper]
  #   type = IterationAdaptiveDT
  #   dt = 0.01
@@ -56,7 +56,7 @@
 
 [Outputs]
   csv = true
-  time_step_interval = 100
+  time_step_interval = 10
   #exodus  = true
 []
 
