@@ -9,12 +9,13 @@
 !include "Simple_PK.i"
 !include "Temperature.i"
 !include "Reactivity.i"
+!include "Xenon.i"
 
 ##################################################################
 ###################    Variables           #######################
 ##################################################################
-!include "Variables_Mesh.i"
-#!include "Variables_Mesh_restart.i"
+#!include "Variables_Mesh.i"
+!include "Variables_Mesh_restart.i"
 
 ################################################################################
 # Execution parameters 
@@ -41,8 +42,8 @@
   l_max_its = 200
  #steady_state_detection = true
  #steady_state_tolerance = 1e-6
-  dt  =0.5   
-  end_time = 6000
+  dt  =1   
+  #end_time = 6000
  # [TimeStepper]
  #   type = IterationAdaptiveDT
  #   dt = 0.01
@@ -57,7 +58,7 @@
 [Outputs]
   csv = true
   time_step_interval = 10
-  #exodus  = true
+  exodus  = true
 []
 
 #[Controls]

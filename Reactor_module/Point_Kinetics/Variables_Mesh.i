@@ -1,3 +1,6 @@
+################################################################################
+# Includes the variables and the mesh in the system.
+################################################################################
 [Variables]
   [power_scalar]
     family = SCALAR
@@ -38,6 +41,16 @@
     family = SCALAR
     order = FIRST
     initial_condition =${fparse Reactor_refference_temperature-1}
+  []
+  [Xenon_scalar]
+    family = SCALAR
+    order = FIRST
+    initial_condition = 1
+  []
+  [Iodine_scalar]
+    family = SCALAR
+    order = FIRST
+    initial_condition = 1
   []
 []
 

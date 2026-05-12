@@ -1,3 +1,6 @@
+################################################################################
+# Includes a Postprocessors for reactivity control. 
+################################################################################
 [Postprocessors]
   [rho_controll]
     type = ConstantPostprocessor

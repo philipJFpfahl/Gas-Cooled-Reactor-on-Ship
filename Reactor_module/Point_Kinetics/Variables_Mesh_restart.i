@@ -1,5 +1,5 @@
 ################################################################################
-# Meshing 
+# Includes the variables and the mesh for a restart of the system.
 ################################################################################
 [Mesh]
   file = '../../Restart_files/Full_power_simple/Main_out.e'
@@ -45,6 +45,16 @@
     family = SCALAR
     order = FIRST
     initial_from_file_var = 'T_reactor'
+  []
+  [Xenon_scalar]
+    family = SCALAR
+    order = FIRST
+    initial_from_file_var = 'Xenon_scalar'
+  []
+  [Iodine_scalar]
+    family = SCALAR
+    order = FIRST
+    initial_from_file_var = 'Iodine_scalar'
   []
 []
 

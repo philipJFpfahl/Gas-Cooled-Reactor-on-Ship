@@ -1,3 +1,6 @@
+################################################################################
+# Includes a Postprocessor to control the primary mass flow rate 
+################################################################################
 [Postprocessors]
   [mass_flow_rate_primary]
     type = Receiver

@@ -1,4 +1,7 @@
 ################################################################################
+# Includes Temperature development and the reactivity feedback from it  
+################################################################################
+################################################################################
 # Parameters  
 ################################################################################
 !include "../../Parameter/TH_parameter.py"
@@ -16,7 +19,7 @@
       constant_names = 'Cr cp_r'
       postprocessors = 'power mass_flow_rate_primary T_outlet T_inlet'
     []
-   [RHSPower_feedback]
+   [RHSPower_temperature_feedback]
      type = ParsedODEKernel
      variable = power_scalar
      expression = '-(rho_T)/Lambda*power_scalar'
