@@ -6,16 +6,16 @@
 ################################################################################
 # Load physics 
 ################################################################################
-!include "Simple_PK.i"
-!include "Temperature.i"
+!include "../../Reactor_module/Point_Kinetics/Simple_PK.i"
+!include "../../Reactor_module/Point_Kinetics/Temperature.i"
 !include "Reactivity.i"
-!include "Xenon.i"
+!include "../../Reactor_module/Point_Kinetics/Xenon.i"
 
 ##################################################################
 ###################    Variables           #######################
 ##################################################################
-!include "Variables_Mesh.i"
-#!include "Variables_Mesh_restart.i"
+#!include "../../Reactor_module/Point_Kinetics/Variables_Mesh.i"
+!include "Variables_Mesh_restart.i"
 
 ################################################################################
 # Execution parameters 
@@ -23,7 +23,7 @@
 
 [Problem]
     kernel_coverage_check=false
-    #allow_initial_conditions_with_restart = true
+    allow_initial_conditions_with_restart = true
 []
 [Preconditioning]
   [SMP_PJFNK]
@@ -40,24 +40,25 @@
   nl_abs_tol = 2.5e-10
   nl_rel_tol = 2.5e-10
   l_max_its = 200
- #steady_state_detection = true
- #steady_state_tolerance = 1e-6
-  dt  =10   
+  steady_state_detection = true
+  steady_state_tolerance = 1e-6
+  dt  = 10   
   #end_time = 6000
- # [TimeStepper]
- #   type = IterationAdaptiveDT
- #   dt = 0.01
- #   optimal_iterations = 20
- #   iteration_window = 2
- #   growth_factor = 1.01
- #   cutback_factor = 0.8
- # []
- # dt_max = 2e4
+  #[TimeStepper]
+  #  type = IterationAdaptiveDT
+  #  dt = 0.01
+  #  optimal_iterations = 20
+  #  iteration_window = 2
+  #  growth_factor = 1.01
+  #  cutback_factor = 0.8
+  #[]
+  dt_max = 2e3
 []
 
 [Outputs]
   csv = true
-  time_step_interval = 10
+  time_step_interval = 1
+  exodus = True
 []
 
 #[Controls]
@@ -70,48 +71,6 @@
 #  []
 #[]
 
-[MultiApps]
-    [Battery]
-      type = TransientMultiApp
-      input_files = "../../Battery_module/Simple_Battery/Main.i"
-      execute_on= "timestep_end "
-      sub_cycling = false
-    []
-[]
-
-[Transfers]
-    [push_T_outlet_to_battery]
-        type = MultiAppPostprocessorTransfer
-        to_multi_app = Battery 
-        from_postprocessor = T_outlet
-        to_postprocessor = T_pipe_inlet
-        execute_on= "timestep_end initial"
-    [] 
-    [pull_MFR_from_battery]
-        type = MultiAppPostprocessorTransfer
-        from_multi_app = Battery 
-        to_postprocessor = mass_flow_rate_primary 
-        from_postprocessor = mass_flow_rate_primary
-        execute_on= "timestep_end initial"
-        reduction_type = average
-    [] 
-    [pull_T_inlet_from_battery]
-        type = MultiAppPostprocessorTransfer
-        from_multi_app = Battery 
-        to_postprocessor = T_inlet 
-        from_postprocessor = T_to_reactor
-        execute_on= "timestep_end initial"
-        reduction_type = average
-    [] 
-    [pull_T_battery_from_battery]
-        type = MultiAppPostprocessorTransfer
-        from_multi_app = Battery 
-        to_postprocessor = T_battery 
-        from_postprocessor = T_battery_pp
-        execute_on= "timestep_end initial"
-        reduction_type = average
-    [] 
-[]
 
 [Postprocessors]
   [mass_flow_rate_primary]

@@ -75,7 +75,7 @@ $$
 
  with the steady state at the control rod position $x = 0$
 
-- [ ] add Xenon
+- [x] add Xenon ✅ 2026-05-13
 The Xenon concentration $Xe$ is calculated using the flux
 
 $$

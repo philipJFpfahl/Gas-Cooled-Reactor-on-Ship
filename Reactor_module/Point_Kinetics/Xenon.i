@@ -7,6 +7,19 @@
 ################################################################################
 !include "../../Parameter/Xenon_parameter.py"
 
+[Variables]
+  [Xenon_scalar]
+    family = SCALAR
+    order = FIRST
+    initial_condition = 3.590055e+15
+  []
+  [Iodine_scalar]
+    family = SCALAR
+    order = FIRST
+    initial_condition =3.301674e+15
+  []
+[]
+
 [ScalarKernels]
     [LHSIodine]
       type = ODETimeDerivative
@@ -55,6 +68,14 @@
       constant_expressions = '${fparse sigma_aX}    ${fparse power_to_flux}'
       constant_names = 'sigma_aX  power_to_flux '
     []
+    [RHSXenon_4]
+      type = ParsedODEKernel
+      variable = Xenon_scalar
+      coupled_variables = 'Iodine_scalar'
+      expression = '-( lambda_I * Iodine_scalar)'
+      constant_expressions = '${fparse lambda_I}'
+      constant_names = ' lambda_I'
+    []
    [RHSPower_Xenon_feedback]
      type = ParsedODEKernel
      variable = power_scalar
@@ -73,7 +94,7 @@
   []
  [rho_Xe]
   type = ParsedPostprocessor
-  expression = ' Xenon * sigma_aX /Sigma_a*1e5'
+  expression = ' - Xenon * sigma_aX /Sigma_a*1e5'
   pp_names = 'Xenon'
   constant_expressions = ' ${fparse sigma_aX} ${fparse Sigma_a}'
   constant_names = ' sigma_aX Sigma_a'

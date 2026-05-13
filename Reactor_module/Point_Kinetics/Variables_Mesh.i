@@ -42,16 +42,6 @@
     order = FIRST
     initial_condition =${fparse Reactor_refference_temperature-1}
   []
-  [Xenon_scalar]
-    family = SCALAR
-    order = FIRST
-    initial_condition = 1
-  []
-  [Iodine_scalar]
-    family = SCALAR
-    order = FIRST
-    initial_condition = 1
-  []
 []
 
 ################################################################################
